@@ -1,11 +1,9 @@
 #!/bin/bash
 
-echo "in"
 
 # get new pushes from modified date
 http GET https://api.pushbullet.com/v2/pushes\?modified_after\=$(<latestPush) -a $(<api_key): --pretty=format > newPushes
 
-echo "out"
 
 
 # parse for new commands
@@ -33,7 +31,8 @@ fi
 
 
 # remove temp file
-#rm newPushes
+rm newPushes
+
 
 
 
