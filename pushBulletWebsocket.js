@@ -19,10 +19,14 @@ function startWS(apiKey) {
 	
 	// on message
 	ws.on('message', function(message) {
-		// if tickle
+		// if update
 		if (JSON.parse(message).type == "tickle"){
 			
-			console.log('tickle')
+			// get date
+			var d = new Date()
+			
+			// log date and event
+			console.log(d + ' tickle' )
 			
 		}
 	});
