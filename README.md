@@ -1,12 +1,16 @@
 # websocketServer
 websocket Server in node to monitor pushbullet traffic
 
+##logMonitor.sh
+* starts node server to monitor websocket
+* starts inotifywait to monitor log file
+
 ##pushbulletWebsocket.js
-Monitors websocket and calls script if event
+* monitors websocket and logs events
 
-##getUpdate.sh
-Gets pushbullet updates and runs commands sent
+##getCommands.sh
+* gets new pushes and calls python script
 
-##parseJSON.js
-helper for JSON parsing
+##runCommands.py
+* parses new pushes and executes commands (or at least will)
 

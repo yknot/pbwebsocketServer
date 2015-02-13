@@ -3,6 +3,6 @@
 node pushBulletWebsocket.js > socketLog &
 
 while inotifywait -e modify socketLog; do
-	./getUpdate.sh &
+	./getCommands.sh &
 done
 
