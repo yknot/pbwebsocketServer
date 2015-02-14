@@ -9,5 +9,8 @@ http GET https://api.pushbullet.com/v2/pushes\?modified_after\=$(<latestPush) -a
 python runCommands.py newPushes
 
 
+# push back data
+http POST https://api.pushbullet.com/v2/pushes
+
 
 

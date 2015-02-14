@@ -6,3 +6,5 @@ latestPush*
 socketLog
 .*.*
 cmds
+mysql*
+push
