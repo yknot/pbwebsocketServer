@@ -10,7 +10,7 @@ python runCommands.py newPushes
 
 
 # push back data
-http POST https://api.pushbullet.com/v2/pushes
+#http POST https://api.pushbullet.com/v2/pushes
 
 
 
