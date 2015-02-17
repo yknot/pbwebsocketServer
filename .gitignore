@@ -5,6 +5,5 @@ newPushes
 latestPush*
 socketLog
 .*.*
-cmds
-mysql*
-push
+mysqlpasswd
+*.sql
