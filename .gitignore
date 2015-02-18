@@ -7,3 +7,4 @@ socketLog
 .*.*
 mysqlpasswd
 *.sql
+*.pyc

@@ -1,5 +1,5 @@
 from PushBullet import *
-from MysqlCursor import *
+from MySQLCursor import *
 
 
 class Pantry:
@@ -10,7 +10,7 @@ class Pantry:
 
     def list(self):
         # get all items
-        rows = sql.ssf('PantryItems')
+        rows = self.sql.ssf('PantryItems')
         
         # put in message form
         msg = ''

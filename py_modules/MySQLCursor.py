@@ -2,11 +2,11 @@ import MySQLdb as mdb
 
 
 
-class Mysqlcursor:
+class MySQLCursor:
     def __init__(self):
         mysqlpasswd = open('mysqlpasswd').readline().strip()
         self.con = mdb.connect('localhost', 'PBuser', mysqlpasswd,'PushBullet')
-        self.cur = con.cursor()
+        self.cur = self.con.cursor()
 
     def ssf(self, table):
         return self.execute('select * from ' + table)
@@ -24,6 +24,6 @@ class Mysqlcursor:
         return self.execute(cmd)
 
     def execute(self, cmd):
-        with con:
+        with self.con:
             self.cur.execute(cmd)
-        return cur.fetchall()
+        return self.cur.fetchall()

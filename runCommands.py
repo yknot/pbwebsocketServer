@@ -1,8 +1,9 @@
-import json
+import simplejson
 import sys
 import MySQLdb as mdb
 import requests
 from decimal import *
+import os
 
 
 sys.path.append(os.getcwd() + '/py_modules')
@@ -10,12 +11,12 @@ sys.path.append(os.getcwd() + '/py_modules')
 
 # custom modules
 from PushBullet import *
-from MysqlCursor import *
+from MySQLCursor import *
 from Pantry import *
 
 
 def latestPush(newPushes):
-'''update file for latest push timestamp'''
+    """update file for latest push timestamp"""
     for p in newPushes['pushes']:
         # write updated latest push
         if 'created' in p:
@@ -26,7 +27,7 @@ def latestPush(newPushes):
 
 
 def isRelevant(p):
-'''tests if note has all neccessary parts and is sent to server'''
+    '''tests if note has all neccessary parts and is sent to server'''
     if ('title' in p 
         and 'body' in p 
         and 'target_device_iden' in p 
@@ -40,7 +41,7 @@ def isRelevant(p):
 f = open(sys.argv[1])
 
 # load as JSON
-newPushes = json.load(f)
+newPushes = simplejson.load(f)
 
 
 
@@ -63,12 +64,12 @@ for p in newPushes['pushes'][:-1]:
         else:
             iden = ''
 
-        pb = new pushbullet(iden)
-        sql = new mysqlcursor()
+        pb = PushBullet(iden)
+        sql = MySQLCursor()
     
         # if about pantry
         if p['title'].lower() == 'pantry':            
-            pantry = new Pantry(pb, sql)
+            pantry = Pantry(pb, sql)
 
             pantry.cmd(p['body'].split())
             

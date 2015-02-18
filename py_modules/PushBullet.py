@@ -5,7 +5,7 @@ from decimal import *
 
 
 
-class Pushbullet:
+class PushBullet:
     def __init__(self, iden):
         self.apiKey = apiKey = open('apiKey').readline().strip()
         self.url = "https://api.pushbullet.com/v2/pushes"
@@ -19,9 +19,9 @@ class Pushbullet:
                            , 'body': body
                            , 'device_iden': self.iden})
 
-        r = requests.post(url
+        r = requests.post(self.url
                           , data
-                          , auth=(apiKey,'')
+                          , auth=(self.apiKey,'')
                           , headers = {'content-type': 'application/json'})
 
 
