@@ -37,11 +37,17 @@ def isRelevant(p):
         return 0
         
 
-# open file based on argument
-f = open(sys.argv[1])
+# new pushbullet object
+pb = PushBullet()
+# get new pushes
+try:
+    since = open('latestPush').readline().strip()
+except:
+    since =  1424233995691 # date is 2/17/2015
 
-# load as JSON
-newPushes = simplejson.load(f)
+rawJSON = pb.getPushes(since)
+newPushes = simplejson.loads(rawJSON)
+
 
 
 
@@ -64,7 +70,7 @@ for p in newPushes['pushes'][:-1]:
         else:
             iden = ''
 
-        pb = PushBullet(iden)
+        pb.setIden(iden)
         sql = MySQLCursor()
     
         # if about pantry
