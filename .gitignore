@@ -1,10 +1,17 @@
+# emacs files
 *~
-apiKey
 *#
-newPushes
-latestPush*
-socketLog
-.*.*
+
+# passwords and static files
+apiKey
+latestPush
 mysqlpasswd
+
+# log file for logMonitor.sh
+socketLog
+
+# sql init file
 *.sql
+
+# python compiled modules
 *.pyc
