@@ -7,24 +7,24 @@ websocket server in node to monitor pushbullet commands
 * node ws
 * mysql
 
-# Files
+# Main Files
 
-### logMonitor.sh
+## logMonitor.sh
 * starts node server to monitor websocket
 * starts inotifywait to monitor log file
 
-### pushbulletWebsocket.js
+## pushbulletWebsocket.js
 * monitors websocket and logs events
 
-### runCommands.py
+## runCommands.py
 * parses new pushes and executes commands
 
-##python modules
+# User Python modules
 
-### PushBullet.py
+## PushBullet.py
 * API caller
 
-### MySQLCursor.py
+## MySQLCursor.py
 * interact with mysql
 
 ### Pantry.py
