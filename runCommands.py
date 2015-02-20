@@ -11,7 +11,7 @@ sys.path.append(os.getcwd() + '/py_modules')
 
 # custom modules
 from PushBullet import *
-from MySQLCursor import *
+#from MySQLCursor import *
 from Pantry import *
 
 
@@ -71,12 +71,13 @@ for p in newPushes['pushes'][:-1]:
             iden = ''
 
         pb.setIden(iden)
-        sql = MySQLCursor()
     
         # if about pantry
         if p['title'].lower() == 'pantry':            
-            pantry = Pantry(pb, sql)
+            pantry = Pantry(pb)
 
             pantry.cmd(p['body'].split())
+            
+            pantry.save()
             
         
