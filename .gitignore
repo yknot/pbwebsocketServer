@@ -5,13 +5,12 @@
 # passwords and static files
 apiKey
 latestPush
-mysqlpasswd
 
 # log file for logMonitor.sh
 socketLog
 
-# sql init file
-*.sql
+# csv storage files
+*.csv
 
 # python compiled modules
 *.pyc

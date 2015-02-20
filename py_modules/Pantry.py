@@ -1,21 +1,28 @@
 from PushBullet import *
-from MySQLCursor import *
+#from MySQLCursor import *
+import csv
 
 
 class Pantry:
-    def __init__(self, pb, sql):
+    def __init__(self, pb):
         self.pb = pb
-        self.sql = sql
+        reader = csv.reader(open('Pantry.csv'))
+
+        self.pantry = {}
+        for row in reader:
+            key = row[0]
+            self.pantry[key] = float(row[1])
+
 
 
     def list(self):
         # get all items
-        rows = self.sql.ssf('PantryItems')
+        
         
         # put in message form
         msg = ''
-        for r in rows:
-            msg = msg + r[1] + ' ' + str(r[2]) + '\n'
+        for key, value in self.pantry.items():
+            msg = msg + key + '\t' + str(value) + '\n'
 
         return msg
 
@@ -25,29 +32,12 @@ class Pantry:
         # the middle items of the command
         item = ' '.join(body[1:len(body)-1]).lower()
         
-        where = {}
-        where['ItemName'] = "'" + item + "'"
-
-        result = self.sql.ssfw('PantryItems', where)
-        
-        
-        if result:
-            num = result[0][2] + Decimal(body[-1])
-            
-            self.sql.execute('update PantryItems set Quantity = ' 
-                             + str(num)
-                             + ' where ItemName = \'' 
-                             + item + '\'')
-                
+        if item in self.pantry:
+            self.pantry[item] += float(body[-1])
         else:
-            self.sql.execute('insert into PantryItems(ItemName, Quantity) values (\'' 
-                             + item 
-                             + '\', ' 
-                             + str(body[-1]) + ')')
-
-        result = self.sql.ssfw('PantryItems', where)
+            self.pantry[item] = float(body[-1])
                 
-        return result[0][1] + ' ' + str(result[0][2])
+        return  item + '\t' + str(self.pantry[item])
         
             
 
@@ -60,5 +50,10 @@ class Pantry:
             msg = self.add(body)
             
         self.pb.pushNote('Pantry', msg)
-            
-            
+
+
+    def save(self):
+        with open('dict.csv', 'wb') as f:
+            writer = csv.writer(f)
+            for key, value in self.pantry.items():
+                writer.writerow([key, value])
