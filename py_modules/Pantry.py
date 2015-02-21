@@ -1,17 +1,21 @@
 from PushBullet import *
 #from MySQLCursor import *
 import csv
+import os.path
 
 
 class Pantry:
     def __init__(self, pb):
         self.pb = pb
-        reader = csv.reader(open('Pantry.csv'))
+        if os.path.isfile('Pantry.csv'):
+            reader = csv.reader(open('Pantry.csv'))
 
-        self.pantry = {}
-        for row in reader:
-            key = row[0]
-            self.pantry[key] = float(row[1])
+            self.pantry = {}
+            for row in reader:
+                key = row[0]
+                self.pantry[key] = float(row[1])
+        else:
+            self.pantry = {}
 
 
 
@@ -28,26 +32,48 @@ class Pantry:
 
 
 
-    def add(self, body):
+    def add(self, line):
         # the middle items of the command
-        item = ' '.join(body[1:len(body)-1]).lower()
+        item = ' '.join(line[1:len(line)-1]).lower()
         
         if item in self.pantry:
-            self.pantry[item] += float(body[-1])
+            self.pantry[item] += float(line[-1])
         else:
-            self.pantry[item] = float(body[-1])
+            self.pantry[item] = float(line[-1])
                 
-        return  item + '\t' + str(self.pantry[item])
+        return 'new value: ' + item + '\t' + str(self.pantry[item])
         
+
+    def remove(self, line):
+        # the middle items of the command
+        item = ' '.join(line[1:len(line)-1]).lower()
+        
+        if item in self.pantry:
+            if pantry[item] - float(line[-1]) < 0:
+                del pantry[item]
+                return 'deleted: ' + item
+            else:
+                self.pantry[item] -= float(line[-1])
+            
+                
+        return 'new value: ' + item + '\t' + str(self.pantry[items])
             
 
     def cmd(self, body):
-        # if command is list
-        if body[0].lower() == 'list':
-            msg = self.list()
+        # for each command 
+        msg = ''
+        for line in body:
+            part = line.split()
+            # if command is list
+            if part[0].lower() == 'list':
+                # quit only returning list
+                self.pb.PushNote('Pantry', self.list())
                 
-        elif body[0].lower() == 'add':
-            msg = self.add(body)
+            elif part[0].lower() == 'add':
+                msg += self.add(part)
+                
+            elif part[0].lower() == 'remove':
+                msg += self.remove(part)
             
         self.pb.pushNote('Pantry', msg)
 

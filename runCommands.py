@@ -76,8 +76,7 @@ for p in newPushes['pushes'][:-1]:
         if p['title'].lower() == 'pantry':            
             pantry = Pantry(pb)
 
-            pantry.cmd(p['body'].split())
+            pantry.cmd(p['body'].splitlines())
             
             pantry.save()
             
-        
