@@ -41,7 +41,7 @@ class Pantry:
         else:
             self.pantry[item] = float(line[-1])
                 
-        return 'new value: ' + item + '\t' + str(self.pantry[item])
+        return 'new value: ' + item + '\t' + str(self.pantry[item]) + '\n'
         
 
     def remove(self, line):
@@ -49,14 +49,14 @@ class Pantry:
         item = ' '.join(line[1:len(line)-1]).lower()
         
         if item in self.pantry:
-            if pantry[item] - float(line[-1]) < 0:
-                del pantry[item]
+            if self.pantry[item] - float(line[-1]) < 0:
+                del self.pantry[item]
                 return 'deleted: ' + item
             else:
                 self.pantry[item] -= float(line[-1])
             
                 
-        return 'new value: ' + item + '\t' + str(self.pantry[items])
+        return 'new value: ' + item + '\t' + str(self.pantry[item]) + '\n'
             
 
     def cmd(self, body):
@@ -67,7 +67,7 @@ class Pantry:
             # if command is list
             if part[0].lower() == 'list':
                 # quit only returning list
-                self.pb.PushNote('Pantry', self.list())
+                msg += self.list()
                 
             elif part[0].lower() == 'add':
                 msg += self.add(part)
