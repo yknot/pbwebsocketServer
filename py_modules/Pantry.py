@@ -8,12 +8,14 @@ class Pantry:
     def __init__(self, pb):
         self.pb = pb
         if os.path.isfile('Pantry.csv'):
+            
             reader = csv.reader(open('Pantry.csv'))
 
             self.pantry = {}
             for row in reader:
                 key = row[0]
                 self.pantry[key] = float(row[1])
+            
         else:
             self.pantry = {}
 
@@ -41,7 +43,7 @@ class Pantry:
         else:
             self.pantry[item] = float(line[-1])
                 
-        return 'new value: ' + item + '\t' + str(self.pantry[item])
+        return 'new value: ' + item + '\t' + str(self.pantry[item]) + '\n'
         
 
     def remove(self, line):
@@ -49,14 +51,14 @@ class Pantry:
         item = ' '.join(line[1:len(line)-1]).lower()
         
         if item in self.pantry:
-            if pantry[item] - float(line[-1]) < 0:
-                del pantry[item]
+            if self.pantry[item] - float(line[-1]) < 0:
+                del self.pantry[item]
                 return 'deleted: ' + item
             else:
                 self.pantry[item] -= float(line[-1])
             
                 
-        return 'new value: ' + item + '\t' + str(self.pantry[items])
+        return 'new value: ' + item + '\t' + str(self.pantry[item]) + '\n'
             
 
     def cmd(self, body):
@@ -67,7 +69,7 @@ class Pantry:
             # if command is list
             if part[0].lower() == 'list':
                 # quit only returning list
-                self.pb.PushNote('Pantry', self.list())
+                msg += self.list()
                 
             elif part[0].lower() == 'add':
                 msg += self.add(part)
@@ -79,7 +81,7 @@ class Pantry:
 
 
     def save(self):
-        with open('dict.csv', 'wb') as f:
+        with open('Pantry.csv', 'wb') as f:
             writer = csv.writer(f)
             for key, value in self.pantry.items():
                 writer.writerow([key, value])
