@@ -5,9 +5,19 @@ websocket server in node to monitor pushbullet commands
 
 ## Dependencies
 * node ws
-* mysql
+* inotifywait?
 
-# Main Files
+## Setup
+* clone git repo
+* create file for apiKey (shell script?)
+* create latestpush file (getdate?)
+* run as service?
+
+
+
+
+
+# Files
 
 ## logMonitor.sh
 * starts node server to monitor websocket
@@ -19,14 +29,9 @@ websocket server in node to monitor pushbullet commands
 ## runCommands.py
 * parses new pushes and executes commands
 
-# User Python modules
-
-## PushBullet.py
+## py_modules\PushBullet.py
 * API caller
 
-## MySQLCursor.py
-* interact with mysql
-
-### Pantry.py
-* interact with pantry
+## py_modules\Pantry.py
+* interact with pantry dictionary
 
