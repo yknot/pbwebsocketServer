@@ -5,6 +5,7 @@ var fs = require('fs');           // open file
 
 // read api key
 fs.readFile('apiKey', 'utf8', function(err, data) {
+	// if can't find apiKey
 	if (err) throw err;
 	var apiKey = (data);
 
