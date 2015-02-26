@@ -14,7 +14,7 @@ from Pantry import *
 
 
 def latestPush(newPushes):
-    """update file for latest push timestamp"""
+    '''update file for latest push timestamp'''
     for p in newPushes['pushes']:
         # write updated latest push
         if 'created' in p:
@@ -45,12 +45,11 @@ try:
     since = open('latestPush').readline().strip()
 except:
     # if file not there use default
-    since =  1424233995691 # date is 2/17/2015
+    since =  1424750589.433564
 
 # get new pushes
 rawJSON = pb.getPushes(since)
 newPushes = simplejson.loads(rawJSON)
-
 
 
 # if there are no newpushes
