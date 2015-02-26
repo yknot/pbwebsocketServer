@@ -6,7 +6,7 @@ var fs = require('fs');           // open file
 // read api key
 fs.readFile('apiKey', 'utf8', function(err, data) {
 	// if can't find apiKey
-	if (err) throw err;
+	if (err) throw 'no apiKey file';
 	var apiKey = (data);
 
 	// function to run websocket

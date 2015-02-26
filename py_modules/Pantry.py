@@ -85,6 +85,8 @@ class Pantry:
                 
             elif cmd[0].lower() == 'remove':
                 msg += self.remove(cmd)
+            else:
+                msg += 'Command not found\n'
             
         # push note back to sender with title and message
         self.pb.pushNote('Pantry', msg)
