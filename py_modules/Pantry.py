@@ -51,9 +51,9 @@ class Pantry:
         item = ' '.join(line[1:len(line)-1]).lower()
         
         if item in self.pantry:
-            if self.pantry[item] - float(line[-1]) < 0:
+            if self.pantry[item] - float(line[-1]) <= 0:
                 del self.pantry[item]
-                return 'deleted: ' + item
+                return 'deleted: ' + item + '\n'
             else:
                 self.pantry[item] -= float(line[-1])
             
