@@ -79,4 +79,6 @@ for p in newPushes['pushes'][:-1]:
             pantry.cmd(p['body'].splitlines())
             
             pantry.save()
+
+            pb.deleteNote(p['iden'])
             

@@ -25,6 +25,12 @@ class PushBullet:
                           , auth=(self.apiKey,'')
                           , headers = {'content-type': 'application/json'})
 
+    def deleteNote(self, pushIden):
+        r = requests.delete(self.url + '/' + pushIden
+                          , auth=(self.apiKey,'')
+                          , headers = {'content-type': 'application/json'})
+                    
+
 
     def getPushes(self, since = 1424233995691): # date is 2/17/2015
         data = requests.get(self.url + '?modified_after=' + str(since), auth=(self.apiKey, ''))
