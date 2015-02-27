@@ -9,8 +9,9 @@ websocket server in node to monitor pushbullet commands
 
 ## Setup
 * clone git repo
-* create file for apiKey (shell script?)
-* create latestpush file (getdate?)
+* init script
+  * create file for apiKey
+  * create latestpush file
 * run as service?
 
 
