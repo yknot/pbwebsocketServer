@@ -14,44 +14,41 @@ sys.path.append(os.getcwd() + '/py_modules')
 from PushBullet import *
 from Pantry import *
 
-def getLatestPushDateTimeJSON
+def getLatestPushDateTimeJSON():
+    ''' if it exists, open the json file containing the last datetime stamp for all users '''
     try:
-        ''' open the json file containing last update datetime by user name '''
+        # open the json file containing last update datetime by user name 
         jsonFile = open("latestPush.json", "r")
         json_data = json.load(jsonFile)
         jsonFile.close()
         return json_data
 
-  except:
-    # if file not there use default
-    return ""
+    except:
+        # if file not there use default
+        return ""
 
 def getLastPushDatetimeForUser(name):
-
         ''' find last update datetime for this user or return a default '''
         json_data = getLatestPushDateTimeJSON()
-        if ('name' in json_data):
+        if 'name' in json_data:
             return json_data[name]
         else:
             # return 24 hours prior in seconds
             return time.time()-86400
 
 
-def saveLatestPushDatetime(name, newPushes):
+def saveLatestPushDatetime(name, datetimestamp):
     '''update file for latest push timestamp'''
-    for p in newPushes['pushes']:
-        # write updated latest push for this user
-        if 'created' in p:
-            ''' read the entire contents of the latestPush into json_data '''
-            json_data = getLatestPushDateTimeJSON()
-            
-            ''' create or update the last update datetime for this user '''
-            json_data["name"] = repr(p['created'])
-  
-            ''' save the json back to the file '''
-            jsonFile = open("latestPush.json", "w+")
-            jsonFile.write(json.dumps(json_data))
-            jsonFile.close()
+    # write updated latest push for this user
+        json_data = getLatestPushDateTimeJSON()
+        
+        # create or update the last update datetime for this user 
+        json_data["name"] = datetimestamp)
+
+        # save the json back to the file 
+        jsonFile = open("latestPush.json", "w+")
+        jsonFile.write(json.dumps(json_data))
+        jsonFile.close()
 
 
 def isRelevant(p, pb):
@@ -65,11 +62,13 @@ def isRelevant(p, pb):
         return 1
     else:
         return 0
+        
 
-
-def doStuff(newPushes):
-    # for each command do stuff
+def updatePantryContents(name, newPushes):
+    '''  '''
+    # for each command do stuff 
     for p in newPushes['pushes'][:-1]:
+        
         # if has title, body and target device is server
         if isRelevant(p, pb):
             
@@ -93,6 +92,9 @@ def doStuff(newPushes):
 
                 pb.deleteNote(p['iden'])
 
+                # save this datetime stamp ("created") for this user to the lastPush file
+                saveLatestPushDatetime(name, repr(p['created'])
+
 
 # get user name from arguments        
 name = sys.argv[-1]
@@ -101,7 +103,7 @@ name = sys.argv[-1]
 pb = PushBullet(name)
 
 # get last datetime saved for this user name
-since = getLastPushDatetime(name)
+since = getLastPushDatetimeForUser(name)
 
 # get new pushes for this user name
 rawJSON = pb.getPushes(since)
@@ -111,7 +113,10 @@ newPushes = simplejson.loads(rawJSON)
 if 'pushes' not in newPushes:
     sys.exit(0)
 
-doStuff(newPushes)
+updatePantryContents(name, newPushes)
             
+<<<<<<< HEAD
 # modify latest push file
 saveLatestPushDatetime(name, newPushes)
+=======
+>>>>>>> 59fa7bd128d4f36c975e0c8bb465f3b11f6be17f
