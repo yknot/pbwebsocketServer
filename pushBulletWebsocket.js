@@ -1,19 +1,22 @@
-var spawn = require('child_process').spawn;       // spawn
 var WebSocket = require('ws');    // websocket
 var fs = require('fs');           // open file
 
 
 // read api key
-fs.readFile('apiKey', 'utf8', function(err, data) {
-	// if can't find apiKey
-	if (err) throw 'no apiKey file';
-	var apiKey = (data);
+fs.readFile('pbwebsocketServer.config', 'utf8', function(err, data) {
+	// if can't find config file
+	if (err) throw 'no config file';
+	var configs = JSON.parse(data);
 
 	// function to run websocket
-	startWS(apiKey);
+	for (key in configs){
+		startWS(configs[key]["APIKey"], key);
+	}
+
+
 });
 
-function startWS(apiKey) {
+function startWS(apiKey, name) {
 	
 	// start websocket
 	var ws = new WebSocket('wss://stream.pushbullet.com/websocket/' + apiKey);
@@ -24,10 +27,10 @@ function startWS(apiKey) {
 		if (JSON.parse(message).type == "tickle"){
 			
 			// get date
-			var d = new Date()
+			var d = new Date();
 			
 			// log date and event
-			console.log(d + ' tickle' )
+			console.log(d + ' ' + name );
 			
 		}
 	});
