@@ -13,42 +13,45 @@ sys.path.append(os.getcwd() + '/py_modules')
 from PushBullet import *
 from Pantry import *
 
-
-def getLastPushDatetime(name):
-  try:
-    # try to find file
-    #since = open('latestPush').readline().strip()
-    with open('latestPush.json') as data_file:    
-        data = json.load(data_file)
-        return data[name]
+def getLatestPushDateTimeJSON
+    try:
+        ''' open the json file containing last update datetime by user name '''
+        jsonFile = open("latestPush.json", "r")
+        json_data = json.load(jsonFile)
+        jsonFile.close()
+        return json_data
 
   except:
     # if file not there use default
-    return  1424750589.433564
+    return ""
+
+def getLastPushDatetimeForUser(name):
+
+        ''' find last update datetime for this user or return a default '''
+        json_data = getLatestPushDateTimeJSON()
+        if ('name' in json_data):
+            return json_data[name]
+        else:
+            ''' return a default datetime stamp to use with this user name '''
+            return 133434.3434
 
 
 def saveLatestPushDatetime(name, newPushes):
     '''update file for latest push timestamp'''
     for p in newPushes['pushes']:
-        # write updated latest push
+        # write updated latest push for this user
         if 'created' in p:
-           # g = open('latestPush', 'w')
-           # g.write(repr(p['created']))
-           # g.close()
-           # return
-
-            jsonFile = open("latestPush.json", "r")
-            data = json.load(jsonFile)
-            jsonFile.close()
-
-            tmp = data["name"]
-            data["name"] = repr(p['created'])
+            ''' read the entire contents of the latestPush into json_data '''
+            json_data = getLatestPushDateTimeJSON()
+            
+            ''' create or update the last update datetime for this user '''
+            json_data["name"] = repr(p['created'])
   
+            ''' save the json back to the file '''
             jsonFile = open("latestPush.json", "w+")
-            jsonFile.write(json.dumps(data))
+            jsonFile.write(json.dumps(json_data))
             jsonFile.close()
 
-            return
 
 def isRelevant(p, pb):
     '''tests if note has all neccessary parts and is sent to server'''
