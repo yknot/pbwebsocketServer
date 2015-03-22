@@ -45,7 +45,7 @@ class PushBullet:
                     
 
 
-    def getPushes(self, since = 1424750589.433564): 
+    def getPushes(self, since): 
         # get list of pushes since date provided or default
         data = requests.get(self.url + '?modified_after=' + str(since), auth=(self.apiKey, ''))
         return data.text

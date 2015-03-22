@@ -4,6 +4,7 @@ import sys
 import requests
 from decimal import *
 import os
+import time
 
 # import path for custom modules
 sys.path.append(os.getcwd() + '/py_modules')
@@ -32,8 +33,8 @@ def getLastPushDatetimeForUser(name):
         if ('name' in json_data):
             return json_data[name]
         else:
-            ''' return a default datetime stamp to use with this user name '''
-            return 133434.3434
+            # return 24 hours prior in seconds
+            return time.time()-86400
 
 
 def saveLatestPushDatetime(name, newPushes):
