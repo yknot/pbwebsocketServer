@@ -4,7 +4,7 @@
 
 # passwords and static files
 pbwebsocketServer.config
-latestPush
+latestPush.json
 
 # log file for logMonitor.sh
 socketLog

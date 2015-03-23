@@ -25,30 +25,31 @@ def getLatestPushDateTimeJSON():
 
     except:
         # if file not there use default
-        return ""
+        json_data = json.loads('{}')
+        return json_data
 
 def getLastPushDatetimeForUser(name):
-        ''' find last update datetime for this user or return a default '''
-        json_data = getLatestPushDateTimeJSON()
-        if 'name' in json_data:
-            return json_data[name]
-        else:
-            # return 24 hours prior in seconds
-            return time.time()-86400
+    ''' find last update datetime for this user or return a default '''
+    json_data = getLatestPushDateTimeJSON()
+    if 'name' in json_data:
+        return json_data[name]
+    else:
+        # return 24 hours prior in seconds
+        return time.time()-86400
 
 
 def saveLatestPushDatetime(name, datetimestamp):
     '''update file for latest push timestamp'''
     # write updated latest push for this user
-        json_data = getLatestPushDateTimeJSON()
+    json_data = getLatestPushDateTimeJSON()
         
-        # create or update the last update datetime for this user 
-        json_data["name"] = datetimestamp)
-
-        # save the json back to the file 
-        jsonFile = open("latestPush.json", "w+")
-        jsonFile.write(json.dumps(json_data))
-        jsonFile.close()
+    # create or update the last update datetime for this user 
+    json_data[name] = datetimestamp
+    
+    # save the json back to the file 
+    jsonFile = open("latestPush.json", "w")
+    jsonFile.write(json.dumps(json_data))
+    jsonFile.close()
 
 
 def isRelevant(p, pb):
@@ -65,10 +66,10 @@ def isRelevant(p, pb):
         
 
 def updatePantryContents(name, newPushes):
-    '''  '''
+    '''Reads the push messages and updates pantry'''
     # for each command do stuff 
     for p in newPushes['pushes'][:-1]:
-        
+
         # if has title, body and target device is server
         if isRelevant(p, pb):
             
@@ -93,10 +94,12 @@ def updatePantryContents(name, newPushes):
                 pb.deleteNote(p['iden'])
 
                 # save this datetime stamp ("created") for this user to the lastPush file
-                saveLatestPushDatetime(name, repr(p['created'])
+                saveLatestPushDatetime(name, p['created'])
 
 
-# get user name from arguments        
+# get user name from arguments
+if sys.argv[-1] == 'runCommands.py':
+    sys.exit('missing name argument')
 name = sys.argv[-1]
 
 # new pushbullet object
@@ -115,8 +118,7 @@ if 'pushes' not in newPushes:
 
 updatePantryContents(name, newPushes)
             
-<<<<<<< HEAD
+
 # modify latest push file
-saveLatestPushDatetime(name, newPushes)
-=======
->>>>>>> 59fa7bd128d4f36c975e0c8bb465f3b11f6be17f
+saveLatestPushDatetime(name, newPushes['pushes'][0]['created'])
+
