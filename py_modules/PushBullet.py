@@ -1,3 +1,4 @@
+import simplejson
 import json
 import requests
 import sys
@@ -6,12 +7,15 @@ from decimal import *
 
 
 class PushBullet:
-    def __init__(self):
+    def __init__(self, name):
         # try to open apiKey
         try:
-            self.apiKey = apiKey = open('apiKey').readline().strip()
+            rawConfig = open('pbwebsocketServer.config').read()
+            config = simplejson.loads(rawConfig)
+            self.apiKey = config[name]['APIKey']
+            self.device_iden = config[name]['DeviceId']
         except:
-            sys.exit('no apiKey file')
+            sys.exit('no config file')
         # url for pushes
         self.url = "https://api.pushbullet.com/v2/pushes"
 
@@ -41,7 +45,7 @@ class PushBullet:
                     
 
 
-    def getPushes(self, since = 1424750589.433564): 
+    def getPushes(self, since): 
         # get list of pushes since date provided or default
         data = requests.get(self.url + '?modified_after=' + str(since), auth=(self.apiKey, ''))
         return data.text

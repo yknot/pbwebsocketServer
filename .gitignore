@@ -3,14 +3,15 @@
 *#
 
 # passwords and static files
-apiKey
-latestPush
+pbwebsocketServer.config
+latestPush.json
 
 # log file for logMonitor.sh
 socketLog
 
 # csv storage files
 *.csv
+*.list
 
 # python compiled modules
 *.pyc
