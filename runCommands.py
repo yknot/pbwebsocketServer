@@ -96,29 +96,33 @@ def updatePantryContents(name, newPushes):
                 # save this datetime stamp ("created") for this user to the lastPush file
                 saveLatestPushDatetime(name, p['created'])
 
+def main():
+    # get user name from arguments
+    if sys.argv[-1] == 'runCommands.py':
+        sys.exit('missing name argument')
+    name = sys.argv[-1]
 
-# get user name from arguments
-if sys.argv[-1] == 'runCommands.py':
-    sys.exit('missing name argument')
-name = sys.argv[-1]
+    # new pushbullet object
+    pb = PushBullet(name)
 
-# new pushbullet object
-pb = PushBullet(name)
+    # get last datetime saved for this user name
+    since = getLastPushDatetimeForUser(name)
 
-# get last datetime saved for this user name
-since = getLastPushDatetimeForUser(name)
+    # get new pushes for this user name
+    rawJSON = pb.getPushes(since)
+    newPushes = simplejson.loads(rawJSON)
 
-# get new pushes for this user name
-rawJSON = pb.getPushes(since)
-newPushes = simplejson.loads(rawJSON)
+    # if there are no new pushes
+    if 'pushes' not in newPushes:
+        sys.exit(0)
 
-# if there are no new pushes
-if 'pushes' not in newPushes:
-    sys.exit(0)
-
-updatePantryContents(name, newPushes)
+    updatePantryContents(name, newPushes)
             
 
-# modify latest push file
-saveLatestPushDatetime(name, newPushes['pushes'][0]['created'])
+    # modify latest push file
+    saveLatestPushDatetime(name, newPushes['pushes'][0]['created'])
 
+
+
+if __name__ == "__main__":
+    main()
