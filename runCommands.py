@@ -1,8 +1,7 @@
 import simplejson
 import json
-import requests
-from decimal import *
 import time
+import sys
 
 # custom modules
 from py_modules.PushBullet import *
@@ -11,7 +10,7 @@ from py_modules.Pantry import *
 def getLatestPushDateTimeJSON():
     ''' if it exists, open the json file containing the last datetime stamp for all users '''
     try:
-        # open the json file containing last update datetime by user name 
+        # open the json file containing last update datetime by user name
         jsonFile = open("latestPush.json", "r")
         json_data = json.load(jsonFile)
         jsonFile.close()
@@ -36,11 +35,11 @@ def saveLatestPushDatetime(name, datetimestamp):
     '''update file for latest push timestamp'''
     # write updated latest push for this user
     json_data = getLatestPushDateTimeJSON()
-        
-    # create or update the last update datetime for this user 
+
+    # create or update the last update datetime for this user
     json_data[name] = datetimestamp
-    
-    # save the json back to the file 
+
+    # save the json back to the file
     jsonFile = open("latestPush.json", "w")
     jsonFile.write(json.dumps(json_data))
     jsonFile.close()
@@ -50,23 +49,23 @@ def isRelevant(p, pb):
     '''tests if note has all neccessary parts and is sent to server'''
     # title and body mean note
     # target device iden is server
-    if ('title' in p 
-        and 'body' in p 
-        and 'target_device_iden' in p 
-        and p['target_device_iden'] == pb.device_iden):
+    if ('title' in p and
+        'body' in p and
+        'target_device_iden' in p and
+        p['target_device_iden'] == pb.device_iden):
         return 1
     else:
         return 0
-        
+
 
 def updatePantryContents(name, newPushes, pb):
     '''Reads the push messages and updates pantry'''
-    # for each command do stuff 
+    # for each command do stuff
     for p in newPushes['pushes'][:-1]:
 
         # if has title, body and target device is server
         if isRelevant(p, pb):
-            
+
             # set to send back to sender
             if 'source_device_iden' in p:
                 iden = p['source_device_iden']
@@ -75,7 +74,7 @@ def updatePantryContents(name, newPushes, pb):
 
             # sets the reciever
             pb.setIden(iden)
-        
+
             # if about pantry
             if p['title'].lower() == 'pantry':
                 # create pantry
@@ -111,7 +110,7 @@ def main():
         sys.exit(0)
 
     updatePantryContents(name, newPushes, pb)
-            
+
 
     # modify latest push file
     saveLatestPushDatetime(name, newPushes['pushes'][0]['created'])
