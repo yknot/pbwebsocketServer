@@ -1,18 +1,12 @@
 import simplejson
 import json
-import sys
 import requests
 from decimal import *
-import os
 import time
 
-# import path for custom modules
-#sys.path.append(os.getcwd() + '/py_modules')
-
-
 # custom modules
-from PushBullet import *
-from Pantry import *
+from py_modules.PushBullet import *
+from py_modules.Pantry import *
 
 def getLatestPushDateTimeJSON():
     ''' if it exists, open the json file containing the last datetime stamp for all users '''
