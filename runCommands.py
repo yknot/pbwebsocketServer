@@ -7,7 +7,7 @@ import os
 import time
 
 # import path for custom modules
-sys.path.append(os.getcwd() + '/py_modules')
+#sys.path.append(os.getcwd() + '/py_modules')
 
 
 # custom modules
@@ -65,7 +65,7 @@ def isRelevant(p, pb):
         return 0
         
 
-def updatePantryContents(name, newPushes):
+def updatePantryContents(name, newPushes, pb):
     '''Reads the push messages and updates pantry'''
     # for each command do stuff 
     for p in newPushes['pushes'][:-1]:
@@ -116,7 +116,7 @@ def main():
     if 'pushes' not in newPushes:
         sys.exit(0)
 
-    updatePantryContents(name, newPushes)
+    updatePantryContents(name, newPushes, pb)
             
 
     # modify latest push file
