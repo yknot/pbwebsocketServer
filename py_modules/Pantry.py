@@ -1,5 +1,6 @@
 from py_modules.PushBullet import *
 import csv
+import logging
 import os.path
 
 
@@ -23,6 +24,14 @@ class Pantry:
         else:
             self.pantry = {}
 
+        logging.basicConfig(filename='pushbullet.log', level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+
+
+    def log(self, cmd):
+        """logs the command that was just run"""
+
+        self.logger.info("Command:" + cmd[0])
 
 
     def list(self):
@@ -33,7 +42,6 @@ class Pantry:
             msg = msg + key + '\t' + str(value) + '\n'
 
         return msg
-
 
 
     def add(self, line):
@@ -90,6 +98,8 @@ class Pantry:
                 msg += self.remove(cmd)
             else:
                 msg += 'Command not found\n'
+
+            self.log(cmd)
 
         # push note back to sender with title and message
         self.pb.pushNote('Pantry', msg)
