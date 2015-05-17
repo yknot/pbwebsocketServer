@@ -8,6 +8,7 @@ latestPush.json
 
 # log file for logMonitor.sh
 socketLog
+*.log
 
 # csv storage files
 *.csv
