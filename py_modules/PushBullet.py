@@ -2,7 +2,7 @@ import simplejson
 import json
 import requests
 import sys
-
+import logging
 
 
 class PushBullet:
@@ -18,6 +18,9 @@ class PushBullet:
             sys.exit('no config file')
         # url for pushes
         self.url = "https://api.pushbullet.com/v2/pushes"
+
+        logging.getLogger('requests').setLevel(logging.WARNING)
+        logging.getLogger('urllib3').setLevel(logging.WARNING)
 
 
     def setIden(self, iden):
@@ -53,4 +56,3 @@ class PushBullet:
         # get list of pushes since date provided or default
         data = requests.get(self.url + '?modified_after=' + str(since), auth=(self.apiKey, ''))
         return data.text
-
